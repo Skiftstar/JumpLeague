@@ -96,3 +96,9 @@ Potions:
 You can find a list of potionTypes [here](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionType.html) (Please keep in mind that this list is for 1.15.2 so some potion effects may not exist in 1.12.2)
 
 If you don't know the spigot Item Materials, you can find a list of them [here](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html) (once again, keep in mind that this list is for 1.15.2 so some items may not exits in 1.12.2)
+
+### Messages Config
+
+You can also customize all of the messages the plugin outputs.
+
+To do this, just go into the messages config (messages.yml) and have fun. Keep in mind that color codes work as well
