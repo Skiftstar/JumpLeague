@@ -44,10 +44,13 @@ Currently, to use PixelLeague, you need [Multiverse](https://www.spigotmc.org/re
 ## Permissions and Commands
 
 The following permissions are important for staff members (commands are explained down below):
+- pixelleague.* - Gives all permissions
 - pixelLeague.setLobbySpawn - for the /setLobbySpawn command
 - pixelLeague.setPvPSpawn - for the /setPvPSpawn command
 - PixelLeague.savePart - for the /savepart command
 - pixelLeague.leagueStart - for the /leagueStart command
+- pixelLeague.partsList - for the /parts command
+- pixelLeague.delpart - for the /delpart command
 
 And here is a list of all of the commands in the plugin:
 - /setLobbySpawn - Sets the coordinates for the lobby where the players will be teleported to when joining a server without an active game
