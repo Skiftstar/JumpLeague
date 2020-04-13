@@ -48,4 +48,4 @@ Saving parts is pretty simple. Take a wooden shovel and left click to set the fi
 then use /savepart [difficulty] (e.g. /savepart easy) to save the part.
 Possible difficulties are: easy, medium, hard, hardcore
 
-!IMPORTANT! The part has to be oriented in Positive X or else the generator may produce some nonsense. Please keep this in mind when saving parts!
+**!IMPORTANT! The part has to be oriented in Positive X or else the generator may produce some nonsense. Please keep this in mind when saving parts!**
