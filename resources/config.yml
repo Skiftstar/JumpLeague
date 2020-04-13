@@ -1,0 +1,27 @@
+# pvpLives - How many lives the players have in the PvP Round
+# titleDisplayLength - For how long a title is displayed (in seconds)
+# tagDuration - For how long a player is flagged as 'last attacked by [whatever player]' (important if player dies by for example fall damage) (in seconds)
+# partDistance - The distance between each Part in the jumpSection (in blocks)
+# amountParts - How many parts you want per difficulty (also used for calculating when a player finishes all parts of one difficulty) Using a number below 1 will cause the plugin to crash, as well as using a number higher than the parts you have saved for this difficulty
+# Rewards - set them to 0 if you don't want any rewards for this action
+# !!IMPORTANT!! When editing rewardFinishFirst, please also edit the rewardMessage "finishFirst" in the messages.yml !!!
+
+pvpLives: 3
+titleDisplayLength: 3
+tagDuration: 5
+partDistance: 40
+amountEasy: 3
+amountMedium: 3
+amountHard: 2
+amountHardcore: 2
+rewardFinishEasy: 25
+rewardFinishMedium: 50
+rewardFinishHard: 75
+rewardFinishHardcore: 100
+rewardFinishFirst:
+  item: DIAMOND_BOOTS
+  money: 500
+rewardKillstreakThree: 0
+rewardKillstreakFive: 100
+rewardKillstreakTen: 300
+rewardPvPWin: 500

@@ -1,0 +1,15 @@
+name: PixelLeague
+author: Yukami
+main: Yukami.PixelLeague.Main
+version: 1.0.0
+api-version: 1.12
+
+commands:
+  savepart:
+    description: saves a part
+  leagueStart:
+    description: force starts the game
+  setPvPSpawn:
+    description: sets the pvpSpawn
+  setLobbySpawn:
+    description: sets the lobbySpawn
