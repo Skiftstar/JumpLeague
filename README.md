@@ -102,3 +102,5 @@ If you don't know the spigot Item Materials, you can find a list of them [here](
 You can also customize all of the messages the plugin outputs.
 
 To do this, just go into the messages config (messages.yml) and have fun. Keep in mind that color codes work as well
+
+When there is a new update, you might need to rename the messages.yml so that the plugin can create a new messages config with the new messages. You don't have to do this though. If there is a message not set in the config, the plugin will tell you in the config
