@@ -10,8 +10,12 @@ The Plugin will only work if you have [Vault](https://www.spigotmc.org/resources
 
 # Setup - Configs
 
+### Main Config
+
 You can customize most things about the plugin in the main config (config.yml). Providing an invalid value for one of the options may cause the plugin to either crash or not work. If you delete one of the precreated options, the plugin will readd it once the server is either reloaded or restarted.
 You can find the default config [here](https://github.com/Skiftstar/JumpLeague/blob/master/resources/config.yml)
+
+### Chests config
 
 The other customizable config is the chests config (chestItems.yml) - You can find a config with a working Item preset here(ADD LINK!) if you don't want to add your own drop table for the chests.
 
