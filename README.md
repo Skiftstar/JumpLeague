@@ -17,7 +17,7 @@ You can find the default config [here](https://github.com/Skiftstar/JumpLeague/b
 
 ### Chests config
 
-The other customizable config is the chests config (chestItems.yml) - You can find a config with a working Item preset here(ADD LINK!) if you don't want to add your own drop table for the chests.
+The other customizable config is the chests config (chestItems.yml) - You can find a config with a working Item preset [here](https://github.com/Skiftstar/JumpLeague/blob/master/resources/chestItems.yml) if you don't want to add your own drop table for the chests.
 
 When editing it, please use the preset one as an orientation. Make sure that the difficulty names are the same as the ones in the parts config (parts.yml) or else the plugin doesn't know to what difficulty the drop tables belongs to and just ignores it.
 
