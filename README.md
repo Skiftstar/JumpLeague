@@ -35,6 +35,12 @@ If you don't know the spigot Item Materials, you can find a list of them [here](
 
 # Setup - Ingame
 
+### Setting up your worls
+
+Currently, to use PixelLeague, you need [Multiverse](https://www.spigotmc.org/resources/multiverse-core.390/) and [VoidWorld](https://www.spigotmc.org/resources/voidworld.29807/). Generate a world name 'void' by executing the following command: `/mv create void normal -g VoidWorld` and then you're good to go!
+
+## Permissions and Commands
+
 The following permissions are important for staff members (commands are explained down below):
 - pixelLeague.setLobbySpawn - for the /setLobbySpawn command
 - pixelLeague.setPvPSpawn - for the /setPvPSpawn command
