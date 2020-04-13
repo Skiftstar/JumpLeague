@@ -1,0 +1,91 @@
+'leicht':
+  STICK:
+    minCount: 1
+    maxCount: 2
+    chance: 10
+  POTION:
+    minCount: 1
+    maxCount: 1
+    chance: 30
+    potionType: 'INSTANT_HEAL'
+    potionUpgraded: true
+    potionExtended: false
+  WOOD_SWORD:
+    minCount: 1
+    maxCount: 1
+    chance: 15
+  LEATHER_HELMET:
+    minCount: 1
+    maxCount: 1
+    chance: 10
+  LEATHER_LEGGINGS:
+    minCount: 1
+    maxCount: 1
+    chance: 10
+  APPLE:
+    minCount: 1
+    maxCount: 2
+    chance: 10
+  WEB:
+    minCount: 1
+    maxCount: 2
+    chance: 5
+  RAW_FISH:
+    minCount: 1
+    maxCount: 2
+    chance: 10
+  WORKBENCH:
+    minCount: 1
+    maxCount: 1
+    chance: 10
+'mittel':
+  DIAMOND_SWORD:
+    minCount: 1
+    maxCount: 1
+    chance: 20
+  IRON_AXE:
+    minCount: 1
+    maxCount: 1
+    chance: 30
+  APPLE:
+    minCount: 1
+    maxCount: 4
+    chance: 30
+  WORKBENCH:
+    minCount: 1
+    maxCount: 1
+    chance: 20
+'schwer':
+  DIAMOND_SWORD:
+    minCount: 1
+    maxCount: 1
+    chance: 20
+  IRON_AXE:
+    minCount: 1
+    maxCount: 1
+    chance: 30
+  APPLE:
+    minCount: 1
+    maxCount: 4
+    chance: 30
+  WORKBENCH:
+    minCount: 1
+    maxCount: 1
+    chance: 20
+'hardcore':
+  DIAMOND_SWORD:
+    minCount: 1
+    maxCount: 1
+    chance: 20
+  IRON_AXE:
+    minCount: 1
+    maxCount: 1
+    chance: 30
+  APPLE:
+    minCount: 1
+    maxCount: 4
+    chance: 30
+  WORKBENCH:
+    minCount: 1
+    maxCount: 1
+    chance: 20
