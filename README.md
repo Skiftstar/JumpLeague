@@ -23,15 +23,40 @@ When editing it, please use the preset one as an orientation. Make sure that the
 
 Keep in mind that 'chance' is the chance of the item to appear in the chest. This means that even if you have two items with a chance of 50%, there still is a 25% that the chest will be empty.
 
-When adding potions to the drop table, please keep in mind that you have to provided extra value such as potionType, potionExtended and potionUpgraded.
+Adding potions is a bit different than other items so I will give you an example here.
 
-potionType is the type of potion, you can find a list of potionTypes [here](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionType.html) (Please keep in mind that this list is for 1.15.2 so some potion effects may not exist in 1.12.2)
+First of all, you have to create an extra block for potions for each difficulty, it has to be called 'Potions'.
 
-potionExtended (true or false) tells the plugin if the potion effect is longer than the base potion
+Here is an example of adding three different types of potions with some comments that might help you out!
+```
+Potions:
+  'potion1':
+    minCount: 1
+    maxCount: 1
+    chance: 50
+    potionType: 'INSTANT_HEAL' # The potionEffect
+    potionUpgraded: true # If the potion is upgraded (e.g. Instant health 2)
+    potionExtended: false # If the potion effect is longer than the base effect
+    potionMaterial: POTION # The type of potion that it is (normal, lingering, splach)
+  'potion2':
+    minCount: 1
+    maxCount: 1
+    chance: 50
+    potionType: 'REGEN' # This potion has regeneration
+    potionUpgraded: false
+    potionExtended: true # And the effect lasts longer than normal
+    potionMaterial: SPLASH_POTION # This time we're gonna use a splash potion
+  'potion3':
+    minCount: 1
+    maxCount: 3 # The stack can have up to 3 Potions
+    chance: 20
+    potionType: 'POISON' # Poison Potion this time
+    potionUpgraded: false
+    potionExtended: false
+    potionMaterial: LINGERING_POTION # This time it's a lingering potion
+```
 
-potionUpgraded (true or false) tells the plugin if the potion effect is upgraded (for example instant heal 2)
-
-Right now you can only add one Potion, one Splash Potion and one lingering potion per difficulty (this will change later!)
+You can find a list of potionTypes [here](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionType.html) (Please keep in mind that this list is for 1.15.2 so some potion effects may not exist in 1.12.2)
 
 If you don't know the spigot Item Materials, you can find a list of them [here](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html) (once again, keep in mind that this list is for 1.15.2 so some items may not exits in 1.12.2)
 
@@ -51,18 +76,22 @@ The following permissions are important for staff members (commands are explaine
 - pixelLeague.leagueStart - for the /leagueStart command
 - pixelLeague.partsList - for the /parts command
 - pixelLeague.delpart - for the /delpart command
+- pixelleague.removepvpspawn - for the /removePvPSpawn command
 
 And here is a list of all of the commands in the plugin:
 - /setLobbySpawn - Sets the coordinates for the lobby where the players will be teleported to when joining a server without an active game
 - /setPvPSpawn - Adds the current Location to the possible PvPSpawns for the PvP Round
-- /savepart [difficulty] - adds the selected part to the parts config so that can be used when generating a parkour
+- /savepart [difficulty] [name] - adds the selected part to the parts config so that can be used when generating a parkour
+- /parts - shows all parts with their names and difficulties
+- /delpart [difficulty] [name] - removes the part from the provided difficulty if a part with that name exists
 - /leaguestart - force starts a game with the players currently on the server
+- removePvPSpawn [Number/all] - removes a given amount of (or all) PvPSpawns. Deletes from the newer ones first.
 
 ### Saving parts
 
 Saving parts is pretty simple. Take a wooden shovel and left click to set the first postion, right click to set the second postion.
 
-then use /savepart [difficulty] (e.g. /savepart easy) to save the part.
+then use /savepart [difficulty] [name] (e.g. /savepart easy HouseJump1) to save the part.
 Possible difficulties are: easy, medium, hard, hardcore
 
 **!IMPORTANT! The part has to be oriented in Positive X or else the generator may produce some nonsense. Please keep this in mind when saving parts!**
