@@ -21,6 +21,8 @@ The other customizable config is the chests config (chestItems.yml) - You can fi
 
 When editing it, please use the preset one as an orientation. Make sure that the difficulty names are the same as the ones in the parts config (parts.yml) or else the plugin doesn't know to what difficulty the drop tables belongs to and just ignores it.
 
+Keep in mind that 'chance' is the chance of the item to appear in the chest. This means that even if you have two items with a chance of 50%, there still is a 25% that the chest will be empty.
+
 When adding potions to the drop table, please keep in mind that you have to provided extra value such as potionType, potionExtended and potionUpgraded.
 
 potionType is the type of potion, you can find a list of potionTypes [here](https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/potion/PotionType.html) (Please keep in mind that this list is for 1.15.2 so some potion effects may not exist in 1.12.2)
