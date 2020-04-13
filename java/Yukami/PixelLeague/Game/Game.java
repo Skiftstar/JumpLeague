@@ -37,6 +37,7 @@ public class Game implements Listener {
     private boolean jumpActive = true, countdownActive = false, pvpActive = false;
     private int countdown;
     private ItemStack resetItem;
+    private int jumpLength, pvpLength, jumpTimerID = -1, pvpLengthID = -1;
 
 
     public Game(Main plugin, int playerCount, List<Location> startingPos, List<Block> blocks) {
@@ -44,6 +45,8 @@ public class Game implements Listener {
         this.startingPos = startingPos;
         resetItem = new ItemStack(Material.MAGMA_CREAM);
         ItemMeta im = resetItem.getItemMeta();
+        jumpLength = plugin.getConfig().getInt("jumpLength");
+        pvpLength = plugin.getConfig().getInt("pvpLength");
         im.setDisplayName(Util.getMess("ResetItemName"));
         resetItem.setItemMeta(im);
         loadPvPStarts();
@@ -96,6 +99,38 @@ public class Game implements Listener {
             players.get(i).getPlayer().setFoodLevel(20);
             players.get(i).getPlayer().setGameMode(GameMode.ADVENTURE);
         }
+        startJumpTimer();
+    }
+
+    private void startJumpTimer() {
+        jumpTimerID = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                countdown = 30;
+                startCountdown();
+            }
+        }, jumpLength * 20);
+    }
+
+    private void startPvPTimer() {
+        pvpLengthID = Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+            @Override
+            public void run() {
+                pvpActive = false;
+                for (Player pl : Bukkit.getOnlinePlayers()) {
+                    pl.sendTitle(Util.getMess("drawTitleBig"), Util.getMess("drawTitleSmall"), 5, plugin.titleLength, 5);
+                }
+                Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+                    @Override
+                    public void run() {
+                        for (Player p : Bukkit.getOnlinePlayers()) {
+                            p.kickPlayer(Util.getMess("kickFromServerMess"));
+                        }
+                        cleanup((blocks.size() / 150) + 1);
+                    }
+                }, 100);
+            }
+        }, pvpLength * 20);
     }
 
     private void cleanup(int runs) {
@@ -411,6 +446,7 @@ public class Game implements Listener {
     }
 
     private void finish(Player winner) {
+        Bukkit.getScheduler().cancelTask(pvpLengthID);
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendTitle(Util.getMess("winnerTitleBig"), Util.getMess("winnterTitleSmall").replace("%plr", winner.getDisplayName()), 5, plugin.titleLength, 5);
         }
@@ -445,6 +481,7 @@ public class Game implements Listener {
             p.getPlayer().getInventory().remove(resetItem);
         }
         countdown = 20;
+        startPvPTimer();
         startPvPCountdown();
     }
 
@@ -497,6 +534,7 @@ public class Game implements Listener {
                 countdown = 30;
                 startCountdown();
                 countdownActive = true;
+                Bukkit.getScheduler().cancelTask(jumpTimerID);
                 for (Player pl : Bukkit.getOnlinePlayers()) {
                     pl.sendTitle(Util.getMess("endReachedTitleBig"), Util.getMess("endReachedTitleSmall").replace("%plr", p.getName()), 5, plugin.titleLength, 5);
                 }

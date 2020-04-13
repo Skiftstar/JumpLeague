@@ -32,6 +32,8 @@ Others:
   "gameStartTimer": "&aSpiel beginnt in &b%sec Sekunden!"
   "partsList": "&6[PixelLeague] Liste von Parts:\nEasy - %easy\nMedium - %med\nHard - %hard\nHardcore - %hc"
   "partsListNone": "&aNoch keine gespeichert"
+  "drawTitleBig": "&6Unentschieden!"
+  "drawTitleSmall": "&eNiemand hat gewonnen!"
 
 SuccessMessages:
   "pvpSpawnSet": "&aSpawn gesetzt!"
