@@ -16,11 +16,9 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -38,10 +36,16 @@ public class Game implements Listener {
     private Objective objective;
     private boolean jumpActive = true, countdownActive = false, pvpActive = false;
     private int countdown;
+    private ItemStack resetItem;
+
 
     public Game(Main plugin, int playerCount, List<Location> startingPos, List<Block> blocks) {
         this.plugin = plugin;
         this.startingPos = startingPos;
+        resetItem = new ItemStack(Material.MAGMA_CREAM);
+        ItemMeta im = resetItem.getItemMeta();
+        im.setDisplayName(Util.getMess("ResetItemName"));
+        resetItem.setItemMeta(im);
         loadPvPStarts();
         this.blocks = blocks;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -50,6 +54,8 @@ public class Game implements Listener {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.setScoreboard(sb);
             players.add(new Yukami.PixelLeague.Game.Player(player, maxLives));
+            player.getInventory().clear();
+            player.getInventory().setItem(0, resetItem);
         }
         plugin.gameActive = true;
         startGame();
@@ -86,6 +92,8 @@ public class Game implements Listener {
     private void startGame() {
         for (int i = 0; i < startingPos.size(); i++) {
             players.get(i).getPlayer().teleport(startingPos.get(i));
+            players.get(i).getPlayer().setHealth(20);
+            players.get(i).getPlayer().setFoodLevel(20);
             players.get(i).getPlayer().setGameMode(GameMode.ADVENTURE);
         }
     }
@@ -197,7 +205,9 @@ public class Game implements Listener {
 
     @EventHandler
     private void onHungerloss(FoodLevelChangeEvent e) {
-        e.setCancelled(true);
+        if (!pvpActive) {
+            e.setCancelled(true);
+        }
     }
 
     private Yukami.PixelLeague.Game.Player getPlayerFromBukPlayer(Player p) {
@@ -238,6 +248,9 @@ public class Game implements Listener {
                 player.death(pvpStartingPos.get(rand.nextInt(pvpStartingPos.size())));
                 player.resetKillstreak();
                 updatePvPScoreboard();
+                if (players.size() == 1) {
+                    finish(players.get(0).getPlayer());
+                }
                 return;
             }
             Bukkit.broadcastMessage(Util.getMess("playerSDKickedOut").replace("%dead", player.getName()));
@@ -275,6 +288,9 @@ public class Game implements Listener {
             player.death(pvpStartingPos.get(rand.nextInt(pvpStartingPos.size())));
             player.resetKillstreak();
             updatePvPScoreboard();
+            if (players.size() == 1) {
+                finish(players.get(0).getPlayer());
+            }
             return;
         }
         players.remove(player);
@@ -426,6 +442,7 @@ public class Game implements Listener {
         }
         for (Yukami.PixelLeague.Game.Player p : players) {
             p.getPlayer().setGameMode(GameMode.SURVIVAL);
+            p.getPlayer().getInventory().remove(resetItem);
         }
         countdown = 20;
         startPvPCountdown();
@@ -445,7 +462,29 @@ public class Game implements Listener {
     }
 
     @EventHandler
+    private void onDrop(PlayerDropItemEvent e) {
+        Player p = e.getPlayer();
+        Yukami.PixelLeague.Game.Player plr = getPlayerFromBukPlayer(p);
+        if (plr == null) {
+            return;
+        }
+        if (e.getItemDrop().getItemStack().equals(resetItem)) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
     private void pressurePlateInteract(PlayerInteractEvent e) {
+        if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            Player p = e.getPlayer();
+            if (p.getInventory().getItemInMainHand() != null && p.getInventory().getItemInMainHand().equals(resetItem)) {
+                Yukami.PixelLeague.Game.Player plr = getPlayerFromBukPlayer(e.getPlayer());
+                if (plr == null) {
+                    return;
+                }
+                plr.toLastCP();
+            }
+        }
         if (!e.getAction().equals(Action.PHYSICAL)) {
             return;
         }

@@ -1,3 +1,5 @@
+# requiredPlayers - the amount of players required so that a game can start
+# timerLength - Amount of seconds before a game starts
 # pvpLives - How many lives the players have in the PvP Round
 # titleDisplayLength - For how long a title is displayed (in seconds)
 # tagDuration - For how long a player is flagged as 'last attacked by [whatever player]' (important if player dies by for example fall damage) (in seconds)
@@ -6,6 +8,8 @@
 # Rewards - set them to 0 if you don't want any rewards for this action
 # !!IMPORTANT!! When editing rewardFinishFirst, please also edit the rewardMessage "finishFirst" in the messages.yml !!!
 
+requiredPlayers: 2
+timerLength: 30
 pvpLives: 3
 titleDisplayLength: 3
 tagDuration: 5

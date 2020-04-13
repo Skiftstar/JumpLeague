@@ -27,6 +27,9 @@ public class startCommand implements CommandExecutor {
             p.sendMessage(Util.getMess("NEPermissions"));
             return false;
         }
+        if (GeneralListener.timerActive) {
+            GeneralListener.stopTask();
+        }
         List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
         Loader.generateParcour(players);
         return false;

@@ -2,6 +2,7 @@ name: PixelLeague
 author: Yukami
 main: Yukami.PixelLeague.Main
 version: 1.0.0
+depend: [Vault]
 api-version: 1.12
 
 commands:
@@ -13,3 +14,37 @@ commands:
     description: sets the pvpSpawn
   setLobbySpawn:
     description: sets the lobbySpawn
+  parts:
+    description: shows the parts that have been saved so far
+  delpart:
+    description: Deletes a provided part
+  removepvpspawn:
+    description: clears all pvp spawns that have been set so far
+
+permissions:
+  pixelLeague.setLobbySpawn:
+    description: allows /setLobbySpawn command
+  pixelleague.setPvPSpawn:
+    description: allows /setPvPSpawn command
+  pixelleague.savePart:
+    description: allows /savePart command
+  pixelleague.leaguestart:
+    description: allows /leaguestart command
+  pixelleague.partsList:
+    description: allows /parts command
+  pixelleague.delpart:
+    description: allows /delpart command
+  pixelleague.removepvpspawn:
+    description: allows /removepvpspawn command
+  pixelleague.*:
+    children:
+      pixelLeague.setLobbySpawn: true
+      pixelleague.setPvPSpawn: true
+      pixelleague.savePart: true
+      pixelleague.leaguestart: true
+      pixelleague.partsList: true
+      pixelleague.delpart: true
+      pixelleague.removepvpspawn: true
+  '*':
+    children:
+      pixelleague.*: true

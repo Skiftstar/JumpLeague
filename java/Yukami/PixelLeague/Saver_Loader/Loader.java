@@ -12,6 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionData;
 import org.bukkit.potion.PotionType;
 
@@ -33,10 +34,8 @@ public class Loader {
 
     private static void setParts(String difficulty) {
         parts.clear();
-        blocks.clear();
         Set<String> partsSet = main.partsConfig.getConfigurationSection(difficulty).getKeys(false);
         parts.addAll(partsSet);
-        //System.out.println(parts);
     }
 
     public static void setMain(Main main) {
@@ -53,44 +52,40 @@ public class Loader {
         int amountMedium = config.getInt("amountMedium");
         int amountHard = config.getInt("amountHard");
         int amountHardcore = config.getInt("amountHardcore");
-        if (main.partsConfig.getConfigurationSection("leicht").getKeys(false).size() < amountEasy ||
-        main.partsConfig.getConfigurationSection("mittel").getKeys(false).size() < amountMedium ||
-        main.partsConfig.getConfigurationSection("schwer").getKeys(false).size() < amountHard ||
+        if (main.partsConfig.getConfigurationSection("easy").getKeys(false).size() < amountEasy ||
+        main.partsConfig.getConfigurationSection("medium").getKeys(false).size() < amountMedium ||
+        main.partsConfig.getConfigurationSection("hard").getKeys(false).size() < amountHard ||
         main.partsConfig.getConfigurationSection("hardcore").getKeys(false).size() < amountHardcore) {
             Main.getInstance().console.sendMessage(Util.getMess("notEnoughPartsConsole"));
             Bukkit.broadcastMessage("invalidNumberInPartsAmountBroadcast");
         }
 
         prevEnding = new Location(Bukkit.getServer().getWorld("void"), 0, 0, 0, -90 ,0);
-        setParts("leicht");
+        setParts("easy");
         Random rand = new Random();
         int index = rand.nextInt(parts.size());
-        //Location loc = locFromString(main.partsConfig.getString("leicht." + index + ".end"));
-        paste("leicht." + parts.get(index), 0, 40, 0, true, false);
-        pastedParts.add("leicht." + parts.get(index));
+        paste("easy." + parts.get(index), 0, 40, 0, true, false);
+        pastedParts.add("easy." + parts.get(index));
         parts.remove(parts.get(index));
         for (int i = 0; i < amountEasy - 1; i++) {
             index = rand.nextInt(parts.size());
-            paste("leicht." + parts.get(index), prevEnding.getX() + 2, prevEnding.getY(), prevEnding.getZ(), false, false);
-            //loc = locFromString(main.partsConfig.getString("leicht." + index + ".end"));
-            pastedParts.add("leicht." + parts.get(index));
+            paste("easy." + parts.get(index), prevEnding.getX() + 2, prevEnding.getY(), prevEnding.getZ(), false, false);
+            pastedParts.add("easy." + parts.get(index));
             parts.remove(parts.get(index));
         }
-        setParts("mittel");
+        setParts("medium");
         for (int i = 0; i < amountMedium; i++) {
             System.out.println(parts);
             index = rand.nextInt(parts.size());
-            paste("mittel." + parts.get(index), prevEnding.getX() + 2, prevEnding.getY(), prevEnding.getZ(), false, false);
-            //loc = locFromString(main.partsConfig.getString("mittel." + index + ".end"));
-            pastedParts.add("mittel." + parts.get(index));
+            paste("medium." + parts.get(index), prevEnding.getX() + 2, prevEnding.getY(), prevEnding.getZ(), false, false);
+            pastedParts.add("medium." + parts.get(index));
             parts.remove(parts.get(index));
         }
-        setParts("schwer");
+        setParts("hard");
         for (int i = 0; i < amountHard; i++) {
             index = rand.nextInt(parts.size());
-            paste("schwer." + parts.get(index), prevEnding.getX() + 2, prevEnding.getY(), prevEnding.getZ(), false, false);
-            //loc = locFromString(main.partsConfig.getString("schwer." + index + ".end"));
-            pastedParts.add("schwer." + parts.get(index));
+            paste("hard." + parts.get(index), prevEnding.getX() + 2, prevEnding.getY(), prevEnding.getZ(), false, false);
+            pastedParts.add("hard." + parts.get(index));
             parts.remove(parts.get(index));
         }
         setParts("hardcore");
@@ -102,7 +97,6 @@ public class Loader {
             {
                 paste("hardcore." + parts.get(index), prevEnding.getX() + 2, prevEnding.getY(), prevEnding.getZ(), false, false);
             }
-            //loc = locFromString(main.partsConfig.getString("hardcore." + index + ".end"));
             pastedParts.add("hardcore." + parts.get(index));
             parts.remove(parts.get(index));
         }
@@ -171,41 +165,69 @@ public class Loader {
     private static void setContents(Chest chest, String difficulty) {
         Random rand = new Random();
         for (String item : Main.getInstance().chestConfig.getConfigurationSection(difficulty).getKeys(false)) {
-            int chance = Main.getInstance().chestConfig.getInt(difficulty + "." + item + ".chance");
-            int randInt = rand.nextInt(100) + 1;
-            if (!(randInt <= chance && randInt >= 1)) {
-                continue;
-            }
-            int maxCount = Main.getInstance().chestConfig.getInt(difficulty + "." + item + ".maxCount");
-            int minCount = Main.getInstance().chestConfig.getInt(difficulty + "." + item + ".minCount");
-            int count = rand.nextInt((maxCount - minCount) + 1) + minCount;
-            if (Material.getMaterial(item.toUpperCase()) == null) {
-                Main.getInstance().console.sendMessage(Util.getMess("itemNotFound").replace("%itm", item));
-                continue;
-            }
-            ItemStack is = new ItemStack(Material.getMaterial(item.toUpperCase()), count);
-            if (is.getType().equals(Material.POTION) || is.getType().equals(Material.LINGERING_POTION) || is.getType().equals(Material.SPLASH_POTION)) {
-                PotionMeta pm = (PotionMeta) is.getItemMeta();
-                try {
-                    String potionType = Main.getInstance().chestConfig.getString(difficulty + "." + item + ".potionType");
-                    boolean potionUpgraded = Main.getInstance().chestConfig.getBoolean(difficulty + "." + item + ".potionUpgraded");
-                    boolean potionExtended = Main.getInstance().chestConfig.getBoolean(difficulty + "." + item + ".potionExtended");
-                    pm.setBasePotionData(new PotionData(PotionType.valueOf(potionType.toUpperCase()), potionExtended, potionUpgraded));
-                    is.setItemMeta(pm);
-                } catch (Exception e) {
-                    Main.getInstance().console.sendMessage(Util.getMess("potionException").replace("%diff", difficulty));
+            if (item.equalsIgnoreCase("Potions")) {
+                System.out.println("found a potion!");
+                for (String potion : Main.getInstance().chestConfig.getConfigurationSection(difficulty + "." + item).getKeys(false)) {
+                    int chance = Main.getInstance().chestConfig.getInt(difficulty + "." + item +  "." + potion + ".chance");
+                    int randInt = rand.nextInt(100) + 1;
+                    if (!(randInt <= chance && randInt >= 1)) {
+                        continue;
+                    }
+                    int maxCount = Main.getInstance().chestConfig.getInt(difficulty + "." + item +  "." + potion + ".maxCount");
+                    int minCount = Main.getInstance().chestConfig.getInt(difficulty + "." + item +  "." + potion + ".minCount");
+                    int count = rand.nextInt((maxCount - minCount) + 1) + minCount;
+                    String potionMaterial = Main.getInstance().chestConfig.getString(difficulty + "." + item +  "." + potion + ".potionMaterial");
+                    Material mat = Material.getMaterial(potionMaterial.toUpperCase());
+                    if (mat == null) {
+                        Main.getInstance().console.sendMessage(Util.getMess("itemNotFound").replace("%itm", item));
+                        continue;
+                    }
+                    ItemStack is = new ItemStack(mat, count);
+                    PotionMeta pm = (PotionMeta) is.getItemMeta();
+                    try {
+                        String potionType = Main.getInstance().chestConfig.getString(difficulty + "." + item + "." + potion + ".potionType");
+                        boolean potionUpgraded = Main.getInstance().chestConfig.getBoolean(difficulty + "." + item + "." + potion + ".potionUpgraded");
+                        boolean potionExtended = Main.getInstance().chestConfig.getBoolean(difficulty + "." + item + "." + potion + ".potionExtended");
+                        pm.setBasePotionData(new PotionData(PotionType.valueOf(potionType.toUpperCase()), potionExtended, potionUpgraded));
+                        is.setItemMeta(pm);
+                        randInt = rand.nextInt(27);
+                        if (chest.getInventory().getItem(randInt) == null || chest.getInventory().getItem(randInt).getType() == null) {
+                            chest.getInventory().setItem(randInt, is);
+                            continue;
+                        }
+                        while (chest.getInventory().getItem(randInt) != null || chest.getInventory().getItem(randInt).getType() != null || !chest.getInventory().getItem(randInt).getType().equals(Material.AIR)) {
+                            randInt = rand.nextInt(27);
+                        }
+                        chest.getInventory().setItem(randInt, is);
+                    } catch (Exception e) {
+                        Main.getInstance().console.sendMessage(Util.getMess("potionException").replace("%diff", difficulty));
+                        continue;
+                    }
+                }
+            } else {
+                int chance = Main.getInstance().chestConfig.getInt(difficulty + "." + item + ".chance");
+                int randInt = rand.nextInt(100) + 1;
+                if (!(randInt <= chance && randInt >= 1)) {
                     continue;
                 }
-            }
-            randInt = rand.nextInt(27);
-            if (chest.getInventory().getItem(randInt) == null || chest.getInventory().getItem(randInt).getType() == null) {
-                chest.getInventory().setItem(randInt, is);
-                continue;
-            }
-            while (chest.getInventory().getItem(randInt) != null || !chest.getInventory().getItem(randInt).getType().equals(Material.AIR)) {
+                int maxCount = Main.getInstance().chestConfig.getInt(difficulty + "." + item + ".maxCount");
+                int minCount = Main.getInstance().chestConfig.getInt(difficulty + "." + item + ".minCount");
+                int count = rand.nextInt((maxCount - minCount) + 1) + minCount;
+                if (Material.getMaterial(item.toUpperCase()) == null) {
+                    Main.getInstance().console.sendMessage(Util.getMess("itemNotFound").replace("%itm", item));
+                    continue;
+                }
+                ItemStack is = new ItemStack(Material.getMaterial(item.toUpperCase()), count);
                 randInt = rand.nextInt(27);
+                if (chest.getInventory().getItem(randInt) == null || chest.getInventory().getItem(randInt).getType() == null) {
+                    chest.getInventory().setItem(randInt, is);
+                    continue;
+                }
+                while (chest.getInventory() == null || chest.getInventory().getItem(randInt) != null || chest.getInventory().getItem(randInt).getType() != null || !chest.getInventory().getItem(randInt).getType().equals(Material.AIR)) {
+                    randInt = rand.nextInt(27);
+                }
+                chest.getInventory().setItem(randInt, is);
             }
-            chest.getInventory().setItem(randInt, is);
         }
     }
 

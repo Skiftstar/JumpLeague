@@ -1,10 +1,7 @@
 package Yukami.PixelLeague;
 
-import Yukami.PixelLeague.Saver_Loader.Loader;
-import Yukami.PixelLeague.Saver_Loader.SaveCommand;
-import Yukami.PixelLeague.Saver_Loader.Saver;
+import Yukami.PixelLeague.Saver_Loader.*;
 import Yukami.PixelLeague.Saver_Loader.posListener.pos;
-import Yukami.PixelLeague.Saver_Loader.setPvPStartCMD;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
@@ -58,7 +55,10 @@ public class Main extends JavaPlugin {
         pos = new pos(this);
         new startCommand(this);
         new setPvPStartCMD(this);
-        new JoinListener(this);
+        new partsCMD(this);
+        new delpartCMD(this);
+        new removePvPSpawns(this);
+        new GeneralListener(this);
         new setLobbySpawnCMD(this);
         new SaveCommand(this);
     }
@@ -133,7 +133,8 @@ public class Main extends JavaPlugin {
         File file = new File(getDataFolder() + File.separator + "chestItems.yml");
         try {
             if (!file.exists()) {
-                file.createNewFile();
+                InputStream in = getResource("chestItems.yml");
+                Files.copy(in, file.toPath());
             }
             chestConfig = YamlConfiguration.loadConfiguration(file);
         } catch (Exception e) {

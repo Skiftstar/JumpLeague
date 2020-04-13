@@ -21,7 +21,7 @@ public class Saver {
         Saver.main = main;
     }
 
-    public static boolean saveArena(Location[] cords, String difficulty) {
+    public static boolean saveArena(Location[] cords, String difficulty, String partName) {
         name = difficulty;
 
         //same algorithm used for searching the arena in Class "TnTCommand"
@@ -114,10 +114,10 @@ public class Saver {
         {
             indexes = main.partsConfig.getConfigurationSection(difficulty).getKeys(false).size();
         }
-        main.partsConfig.set(name + "." + indexes + ".blocks", blocks); //after the algorithm is finished, put everything in the config
-        main.partsConfig.set(name + "." + indexes + ".chest", convert(chests.get(0)));
-        main.partsConfig.set(name + "." + indexes + ".start", convert(start.get(0)));
-        main.partsConfig.set(name + "." + indexes + ".end", convert(end.get(0)));
+        main.partsConfig.set(name + "." + partName + ".blocks", blocks); //after the algorithm is finished, put everything in the config
+        main.partsConfig.set(name + "." + partName + ".chest", convert(chests.get(0)));
+        main.partsConfig.set(name + "." + partName + ".start", convert(start.get(0)));
+        main.partsConfig.set(name + "." + partName + ".end", convert(end.get(0)));
         main.savePartsConfig(); //and save it
         end.clear();
         start.clear();

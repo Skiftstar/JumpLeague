@@ -105,7 +105,7 @@ public class Player {
 
     public void checkIfCPReward() {
         FileConfiguration config = Main.getInstance().getConfig();
-        int amountEasy = config.getInt("amountEasy");
+        int amountEasy = config.getInt("amountEasy") + 1;
         int amountMedium = config.getInt("amountMedium");
         int amountHard = config.getInt("amountHard");
         int amountHardcore = config.getInt("amountHardcore");
@@ -180,5 +180,6 @@ public class Player {
         p.teleport(respawnLoc);
         p.setHealth(20);
         p.setFoodLevel(20);
+        p.setFireTicks(0);
     }
 }
