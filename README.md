@@ -31,6 +31,8 @@ potionExtended (true or false) tells the plugin if the potion effect is longer t
 
 potionUpgraded (true or false) tells the plugin if the potion effect is upgraded (for example instant heal 2)
 
+Right now you can only add one Potion, one Splash Potion and one lingering potion per difficulty (this will change later!)
+
 If you don't know the spigot Item Materials, you can find a list of them [here](https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html) (once again, keep in mind that this list is for 1.15.2 so some items may not exits in 1.12.2)
 
 # Setup - Ingame
