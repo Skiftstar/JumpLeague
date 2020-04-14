@@ -4,7 +4,7 @@ This is a free JumpLeague Plugin for your Minecraft Spigot Server.
 
 This plugin is currently only tested on Spigot 1.12.2 and may contain some bugs as it's still in development (but it's already useable)
 
-## Getting the plugin on your server
+# Getting the plugin on your server
 
 Download the latest jar from the [releases](https://github.com/Skiftstar/JumpLeague/releases) and put it in your plugins folder.
 The Plugin will only work if you have [Vault](https://www.spigotmc.org/resources/vault.34315/) and an economy plugin (like [Aconomy](https://www.spigotmc.org/resources/aconomy-simple-vault-economy.64569/)) on your server as well!
@@ -15,7 +15,7 @@ The Plugin will only work if you have [Vault](https://www.spigotmc.org/resources
 
 Currently, to use PixelLeague, you need [Multiverse](https://www.spigotmc.org/resources/multiverse-core.390/) and [VoidWorld](https://www.spigotmc.org/resources/voidworld.29807/). Generate a world name 'void' by executing the following command: `/mv create void normal -g VoidWorld` and then you're good to go!
 
-## Permissions and Commands
+### Permissions and Commands
 
 The following permissions are important for staff members (commands are explained down below):
 - pixelleague.* - Gives all permissions
